@@ -1,0 +1,17 @@
+<div class="col-6">
+<h1>Send money</h1>
+  <%= form_with model: @transaction, url: transactions_create_path, class: "form-group" do |f| %>
+    <p>
+    <%= f.label 'recipient_id' %><br>
+    <%= select_tag 'recipient_id', options_for_select(users_list.map{|user| ["#{user.email}", user.id] }), class: "form-control"%>
+    </p>
+    <p>
+    <%= f.label 'amount' %><br>
+    <%= number_field_tag :amount, nil, min: 0, class: "form-control" %>
+    </p>
+    <p>
+    <%= f.submit 'Send' %>
+    </p>
+  <% end %>
+</div>
+

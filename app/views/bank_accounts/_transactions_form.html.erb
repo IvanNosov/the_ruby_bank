@@ -1,0 +1,26 @@
+<div class="list-group">
+    <% if transactions.present? %>
+        <table class="table">
+            <thead>
+            <tr>
+            <th>Sender</th>
+            <th>Recipient</th>
+            <th>Amount</th>
+            <th>Success</th>
+            <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% transactions.each do |transaction| %>
+            <tr>
+            <td><%= transaction.sender.email %></td>
+            <td><%= transaction.recipient.email %></td>
+            <td><%= transaction.amount %></td>
+            <td><%= transaction.success %></td>
+            <td><%= transaction.created_at %></td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+  <% end %>
+</div>

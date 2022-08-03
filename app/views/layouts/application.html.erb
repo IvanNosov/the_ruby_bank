@@ -11,6 +11,30 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="container">
+      <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="/">TheRubyBank</a>
+        <div> <%= Current.user&.email %> </div>
+        <div class="btn-group">
+          <% if Current.user %>
+            <%= link_to 'Bank account', bank_accounts_show_path, class: 'btn btn-outline-primary' %>
+            <%= link_to 'New transaction', transactions_new_path, class: 'btn btn-outline-primary' %>
+            <%= button_to 'Logout', logout_path, method: :delete, class: 'btn btn-outline-danger' %>
+            <% else %>
+            <%= link_to 'Login', sign_in_path, class: 'btn btn-success' %>
+          <% end %>
+        </div>
+      </nav>
+
+      <% flash.each do |type, msg| %>
+        <div class="alert alert-info">
+          <%= msg %>
+        </div>
+      <% end %>
+
+      <%= yield %>
+
+    </div>
+    
   </body>
 </html>

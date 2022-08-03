@@ -1,0 +1,12 @@
+<h1> Your bank account </h1><br>
+<div>
+    <h2> Balance: <%= @bank_account.balance %> </h2><br>
+    <h3> Transaction history </h3>
+    <%= render "bank_accounts/transactions_form", transactions: all_transactions  %>
+</div>
+
+
+
+
+
+
