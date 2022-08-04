@@ -1,7 +1,7 @@
 class PerformTransactionService
   def initialize(params)
-    @sender = User.find_by(id: params[:sender_id])
-    @recipient = User.find_by(id: params[:recipient_id])
+    @sender = User.find_by!(id: params[:sender_id])
+    @recipient = User.find_by!(id: params[:recipient_id])
     @amount = params[:amount].to_i
     @transaction = nil
   end
