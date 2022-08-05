@@ -13,5 +13,8 @@ class TransactionsController < ApplicationController
     else
       redirect_to transactions_new_path, notice: 'Not enough balance. Please try again.'
     end
+
+  rescue ActiveRecord::RecordNotFound
+    redirect_to transactions_new_path, notice: "User not found"
   end
 end

@@ -7,7 +7,10 @@ class PerformTransactionService
   end
 
   def call
-    perform_transaction
+    setup_transaction
+    update_balances if @transaction.persisted? && @transaction.success
+
+    @transaction
   end
 
   private
@@ -22,8 +25,12 @@ class PerformTransactionService
     amount >= 0
   end
 
+  def transaction_successful?
+    sender_has_enough_balance? && amount_positive?
+  end
+
   def setup_transaction
-    success = sender_has_enough_balance? ? true : false
+    success = transaction_successful? ? true : false
     @transaction = Transaction.new(sender_id: sender.id, recipient_id: recipient.id, amount:, success:)
     @transaction.save!
   end
@@ -33,12 +40,5 @@ class PerformTransactionService
       sender.bank_account.update!(balance: sender.bank_account.balance - amount)
       recipient.bank_account.update!(balance: recipient.bank_account.balance + amount)
     end
-  end
-
-  def perform_transaction
-    setup_transaction
-    update_balances if @transaction.persisted? && @transaction.success
-
-    @transaction
   end
 end
