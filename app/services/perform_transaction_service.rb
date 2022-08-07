@@ -1,4 +1,9 @@
 class PerformTransactionService
+
+  def self.call(params)
+    new(params).perform_transaction
+  end
+
   def initialize(params)
     @sender = User.find_by!(id: params[:sender_id])
     @recipient = User.find_by!(id: params[:recipient_id])
@@ -6,7 +11,7 @@ class PerformTransactionService
     @transaction = nil
   end
 
-  def call
+  def perform_transaction
     setup_transaction
     update_balances if @transaction.persisted? && @transaction.success
 

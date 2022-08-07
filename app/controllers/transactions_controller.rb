@@ -6,7 +6,7 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    @transaction = PerformTransactionService.new(params.merge(sender_id: Current.user.id)).call
+    @transaction = PerformTransactionService.call(params.merge(sender_id: Current.user.id))
 
     if @transaction.persisted? && @transaction.success
       redirect_to bank_accounts_show_path, notice: 'Success!'
