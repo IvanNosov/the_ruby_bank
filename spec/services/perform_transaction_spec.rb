@@ -10,7 +10,7 @@ RSpec.describe PerformTransactionService, type: :model do
       it 'should transfer money from sender to recipient' do
         sender.bank_account.update(balance: 100)
 
-        transaction = PerformTransactionService.new(params).call
+        transaction = PerformTransactionService.call(params)
 
         expect(transaction.persisted?).to eq(true)
         expect(sender.reload.bank_account.balance).to eq(80)
@@ -20,7 +20,7 @@ RSpec.describe PerformTransactionService, type: :model do
 
     context 'invalid data' do
       it 'should create not successful transaction if sender has not enough balance' do
-        transaction = PerformTransactionService.new(params).call
+        transaction = PerformTransactionService.call(params)
 
         expect(transaction.persisted?).to eq(true)
         expect(transaction.success).to eq(false)
