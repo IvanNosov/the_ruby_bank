@@ -4,11 +4,10 @@ RSpec.describe PerformTransactionService, type: :model do
   describe '#call' do
     let(:sender) { create(:user) }
     let(:recipient) { create(:user) }
-    let(:params) { {amount: 20, sender_id: sender.id, recipient_id: recipient.id} }
+    let(:params) { { amount: 20, sender_id: sender.id, recipient_id: recipient.id } }
 
-
-    context "valid data" do
-      it "should transfer money from sender to recipient" do
+    context 'valid data' do
+      it 'should transfer money from sender to recipient' do
         sender.bank_account.update(balance: 100)
 
         transaction = PerformTransactionService.new(params).call
@@ -19,8 +18,8 @@ RSpec.describe PerformTransactionService, type: :model do
       end
     end
 
-    context "invalid data" do
-      it "should create not successful transaction if sender has not enough balance" do
+    context 'invalid data' do
+      it 'should create not successful transaction if sender has not enough balance' do
         transaction = PerformTransactionService.new(params).call
 
         expect(transaction.persisted?).to eq(true)

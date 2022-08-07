@@ -17,20 +17,12 @@ class PerformTransactionService
 
   attr_reader :sender, :recipient, :amount
 
-  def sender_has_enough_balance?
-    sender.bank_account.balance - amount >= 0
-  end
-
-  def amount_positive?
-    amount >= 0
-  end
-
   def transaction_successful?
     sender_has_enough_balance? && amount_positive?
   end
 
   def setup_transaction
-    success = transaction_successful? ? true : false
+    success = TransactionPolicy.allowed?(sender, recipient, amount)
     @transaction = Transaction.new(sender_id: sender.id, recipient_id: recipient.id, amount:, success:)
     @transaction.save!
   end
