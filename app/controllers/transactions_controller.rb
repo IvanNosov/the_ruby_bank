@@ -6,14 +6,14 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    @transaction = PerformTransactionService.call(params.merge(sender_id: Current.user.id))
+    @transaction = PerformTransactionService.call(params.merge(sender: Current.user))
 
     if @transaction.persisted? && @transaction.success
       redirect_to bank_accounts_show_path, notice: 'Success!'
+    elsif @transaction.persisted? && !@transaction.success 
+      redirect_to transactions_new_path, notice: "Not enough money"
     else
-      redirect_to transactions_new_path, notice: 'Not enough balance. Please try again.'
+      redirect_to transactions_new_path, notice: "Error happened: #{@transaction.errors.full_messages.join(", ")}"
     end
-  rescue ActiveRecord::RecordNotFound
-    redirect_to transactions_new_path, notice: 'User not found'
   end
 end
