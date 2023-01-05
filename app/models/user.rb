@@ -7,7 +7,9 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
 
   def all_transactions
-    (sent_transactions + received_transactions).sort_by(&:created_at)
+    sent = sent_transactions.includes([:sender, :recipient])
+    recieved = received_transactions.includes([:sender, :recipient])
+    (sent + recieved).sort_by(&:created_at)
   end
 
   private
